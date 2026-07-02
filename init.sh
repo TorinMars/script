@@ -289,8 +289,9 @@ configure_bt_panel() {
     exit 1
   fi
 
-  if ! printf '%s' "$BT_SAFE_PATH" | grep -Eq '^/[A-Za-z0-9._-]+$'; then
-    echo "宝塔安全入口只能包含字母、数字、点、下划线和中划线，当前输入: $BT_SAFE_PATH"
+  if ! printf '%s' "$BT_SAFE_PATH" | grep -Eq '^/[A-Za-z0-9._/-]+$' ||
+    printf '%s' "$BT_SAFE_PATH" | grep -Eq '//|/\.$|/\.\.$|/\./|/\.\./|/$|^/$'; then
+    echo "宝塔安全入口只能包含字母、数字、点、下划线、中划线和路径分隔符，不能为 / 或包含空路径段，当前输入: $BT_SAFE_PATH"
     exit 1
   fi
 
